@@ -1,0 +1,112 @@
+{
+  "nodes": {
+    "dunai": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1697953999,
+        "narHash": "sha256-YShK6gQ5VSJVa/vVaTdDZ2lddPWWKaF2b3a9i+aQp60=",
+        "owner": "ivanperez-keera",
+        "repo": "dunai",
+        "rev": "d06fde9b289cc1d9792c43fac3dcb26524d9ed22",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ivanperez-keera",
+        "repo": "dunai",
+        "type": "github"
+      }
+    },
+    "imgui": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1693833415,
+        "narHash": "sha256-0k9jKrJUrG9piHNFQaBBY3zgNIKM23ZA879NY+MNYTU=",
+        "owner": "ocornut",
+        "repo": "imgui",
+        "rev": "c6e0284ac58b3f205c95365478888f7b53b077e2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ocornut",
+        "ref": "v1.89.9",
+        "repo": "imgui",
+        "type": "github"
+      }
+    },
+    "imgui-hs": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1694372124,
+        "narHash": "sha256-ApoBqGYgP+tLGaOKYkgZ8ryJAVCWcqctFJ3es44JVZA=",
+        "owner": "haskell-game",
+        "repo": "dear-imgui.hs",
+        "rev": "7ec260c3592c7def2508854bb32d6a39d77f9a7f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "haskell-game",
+        "repo": "dear-imgui.hs",
+        "type": "github"
+      }
+    },
+    "nix-filter": {
+      "locked": {
+        "lastModified": 1694857738,
+        "narHash": "sha256-bxxNyLHjhu0N8T3REINXQ2ZkJco0ABFPn6PIe2QUfqo=",
+        "owner": "numtide",
+        "repo": "nix-filter",
+        "rev": "41fd48e00c22b4ced525af521ead8792402de0ea",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "nix-filter",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1698924604,
+        "narHash": "sha256-GCFbkl2tj8fEZBZCw3Tc0AkGo0v+YrQlohhEGJ/X4s0=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "fa804edfb7869c9fb230e174182a8a1a7e512c40",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "rhine": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1697526886,
+        "narHash": "sha256-+w0LEkkVuSZa7YommPdQgM2nbaZBH4IPM3rjo73ZJgM=",
+        "owner": "turion",
+        "repo": "rhine",
+        "rev": "6aa8e3e158ef762b1f23ffacfda7921591e33491",
+        "type": "github"
+      },
+      "original": {
+        "owner": "turion",
+        "repo": "rhine",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "dunai": "dunai",
+        "imgui": "imgui",
+        "imgui-hs": "imgui-hs",
+        "nix-filter": "nix-filter",
+        "nixpkgs": "nixpkgs",
+        "rhine": "rhine"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}

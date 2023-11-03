@@ -1,0 +1,62 @@
+cabal-version:      3.4
+name:               dunai-imgui
+version:            0.1.0.0
+synopsis:           Dear ImGui backend for Dunai
+-- description:
+homepage:           https://github.com/ners/dunai-imgui
+license:            Apache-2.0
+author:             ners <ners@gmx.ch>, Cajunvoodoo <tomdwy1008@gmail.com>
+maintainer:         ners@gmx.ch
+-- copyright:
+category:           Graphics
+build-type:         Simple
+extra-doc-files:    CHANGELOG.md
+-- extra-source-files:
+
+common common
+    default-language: GHC2021
+    ghc-options:
+        -Weverything
+        -Wno-unsafe
+        -Wno-missing-safe-haskell-mode
+        -Wno-missing-export-lists
+        -Wno-missing-import-lists
+        -Wno-missing-kind-signatures
+        -Wno-all-missed-specialisations
+    default-extensions:
+        ApplicativeDo
+        DataKinds
+        DefaultSignatures
+        DeriveAnyClass
+        DeriveGeneric
+        DerivingStrategies
+        DerivingVia
+        ExplicitNamespaces
+        NoImplicitPrelude
+        OverloadedLabels
+        OverloadedRecordDot
+        OverloadedStrings
+        RecordWildCards
+        RecursiveDo
+        TypeFamilies
+        ViewPatterns
+
+library
+    import:           common
+    exposed-modules:  MyLib
+    build-depends:
+        base <5,
+        dear-imgui,
+        dunai,
+    hs-source-dirs:   lib
+    default-language: GHC2021
+
+test-suite dunai-imgui-test
+    import:           common
+    default-language: GHC2021
+    type:             exitcode-stdio-1.0
+    hs-source-dirs:   test
+    main-is:          Main.hs
+    build-depends:
+        base <5,
+        dunai-imgui,
