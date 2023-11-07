@@ -25,6 +25,7 @@ common common
         -Wno-all-missed-specialisations
     default-extensions:
         ApplicativeDo
+        BlockArguments
         DataKinds
         DefaultSignatures
         DeriveAnyClass
@@ -32,6 +33,7 @@ common common
         DerivingStrategies
         DerivingVia
         ExplicitNamespaces
+        LambdaCase
         NoImplicitPrelude
         OverloadedLabels
         OverloadedRecordDot
@@ -46,6 +48,7 @@ library
     exposed-modules:  MyLib
     build-depends:
         base <5,
+        rhine,
         dunai-imgui,
     hs-source-dirs:   lib
     default-language: GHC2021

@@ -1,7 +1,7 @@
 cabal-version:      3.4
-name:               dunai-imgui
+name:               bearriver-imgui
 version:            0.1.0.0
-synopsis:           Dear ImGui backend for Dunai
+synopsis:           Dear ImGui backend for Bearriver
 -- description:
 homepage:           https://github.com/ners/dunai-imgui
 license:            Apache-2.0
@@ -47,17 +47,13 @@ library
     import:           common
     exposed-modules:  MyLib
     build-depends:
-        OpenGL,
         base <5,
-        dear-imgui,
-        dunai,
-        gl,
-        managed,
-        sdl2,
+        dunai-imgui,
+        bearriver,
     hs-source-dirs:   lib
     default-language: GHC2021
 
-test-suite dunai-imgui-test
+test-suite bearriver-imgui-test
     import:           common
     default-language: GHC2021
     type:             exitcode-stdio-1.0
@@ -65,4 +61,4 @@ test-suite dunai-imgui-test
     main-is:          Main.hs
     build-depends:
         base <5,
-        dunai-imgui,
+        bearriver-imgui,

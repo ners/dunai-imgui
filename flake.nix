@@ -38,7 +38,7 @@
         ];
       };
       mkLib = hp: pname: { "${pname}" = hp.callCabal2nix pname (hsSrc pname) { }; };
-      pnames = [ "dunai-imgui" "rhine-imgui" ];
+      pnames = [ "dunai-imgui" "bearriver-imgui" "rhine-imgui" ];
     in
     foreach inputs.nixpkgs.legacyPackages (system: pkgs:
       let
@@ -59,8 +59,8 @@
                   builtins.trace "GHC ${super.ghc.version}"
                   {
                     dunai = self.callCabal2nix "dunai" "${inputs.dunai}/dunai" { };
-                    rhine = self.callCabal2nix "rhine" "${inputs.rhine}/rhine" { };
-                    rhine-terminal = self.callCabal2nix "rhine-terminal" "${inputs.rhine}/rhine-terminal" { };
+                    bearriver = self.callCabal2nix "bearriver" "${inputs.dunai}/dunai-frp-bearriver" { };
+                    rhine = doJailbreak (self.callCabal2nix "rhine" "${inputs.rhine}/rhine" { });
                     dear-imgui = lib.pipe inputs.imgui-hs [
                       (src: self.callCabal2nix "dear-imgui" src {})
                       (drv: drv.overrideAttrs (attrs: {
