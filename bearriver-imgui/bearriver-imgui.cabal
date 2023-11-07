@@ -25,6 +25,7 @@ common common
         -Wno-all-missed-specialisations
     default-extensions:
         ApplicativeDo
+        Arrows
         BlockArguments
         DataKinds
         DefaultSignatures
@@ -48,8 +49,12 @@ library
     exposed-modules:  MyLib
     build-depends:
         base <5,
-        dunai-imgui,
         bearriver,
+        dear-imgui,
+        dunai,
+        dunai-imgui,
+        sdl2,
+        text,
     hs-source-dirs:   lib
     default-language: GHC2021
 

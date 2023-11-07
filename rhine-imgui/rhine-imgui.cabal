@@ -25,6 +25,7 @@ common common
         -Wno-all-missed-specialisations
     default-extensions:
         ApplicativeDo
+        Arrows
         BlockArguments
         DataKinds
         DefaultSignatures

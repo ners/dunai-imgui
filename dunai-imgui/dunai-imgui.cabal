@@ -25,6 +25,7 @@ common common
         -Wno-all-missed-specialisations
     default-extensions:
         ApplicativeDo
+        Arrows
         BlockArguments
         DataKinds
         DefaultSignatures
@@ -45,15 +46,21 @@ common common
 
 library
     import:           common
-    exposed-modules:  MyLib
+    exposed-modules:
+        MyLib,
+        Backend,
+        Backend.SDL2OpenGL3,
+    other-modules:
+        Data.MonadicStreamFunction.Extra,
     build-depends:
-        OpenGL,
         base <5,
         dear-imgui,
         dunai,
         gl,
         managed,
         sdl2,
+        text,
+        transformers-base,
     hs-source-dirs:   lib
     default-language: GHC2021
 
