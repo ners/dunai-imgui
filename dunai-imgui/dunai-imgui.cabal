@@ -35,6 +35,7 @@ common common
         DerivingVia
         ExplicitNamespaces
         LambdaCase
+        NoFieldSelectors
         NoImplicitPrelude
         OverloadedLabels
         OverloadedRecordDot
@@ -47,16 +48,22 @@ common common
 library
     import:           common
     exposed-modules:
-        MyLib,
-        Backend,
-        Backend.SDL2OpenGL3,
+        FRP.Dunai.DearImGui.Backend,
+        FRP.Dunai.DearImGui.Backend.SDL2OpenGL3,
+        FRP.Dunai.DearImGui.Types,
+        FRP.Dunai.DearImGui.Widgets,
+        FRP.Dunai.DearImGui.Widgets.Button,
+        FRP.Dunai.DearImGui.Widgets.TextInput,
     other-modules:
         Data.MonadicStreamFunction.Extra,
+        Internal.Prelude,
     build-depends:
         base <5,
         dear-imgui,
         dunai,
+        generic-lens,
         gl,
+        lens,
         managed,
         sdl2,
         text,

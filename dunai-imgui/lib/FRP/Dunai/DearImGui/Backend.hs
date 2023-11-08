@@ -1,12 +1,8 @@
 {-# LANGUAGE AllowAmbiguousTypes #-}
 
-module Backend where
+module FRP.Dunai.DearImGui.Backend where
 
-import Control.Monad.IO.Class (MonadIO)
-import Data.MonadicStreamFunction (MSF, morphS)
-import Data.Text (Text)
-import Prelude
-import Control.Monad.Trans.MSF (reactimateB)
+import Internal.Prelude
 
 class Backend b where
     type Window b

@@ -1,18 +1,13 @@
-module Backend.SDL2OpenGL3 where
+module FRP.Dunai.DearImGui.Backend.SDL2OpenGL3 where
 
-import Backend
-import Control.Exception (bracket, bracket_)
-import Control.Monad.IO.Class (MonadIO (liftIO))
-import Control.Monad.Managed (managed, managed_, runManaged)
-import Data.MonadicStreamFunction (constM)
 import DearImGui (createContext, destroyContext, getDrawData, newFrame, render)
 import DearImGui.OpenGL3 (openGL3Init, openGL3NewFrame, openGL3RenderDrawData, openGL3Shutdown)
 import DearImGui.SDL (pollEventsWithImGui, sdl2NewFrame, sdl2Shutdown)
 import DearImGui.SDL.OpenGL (sdl2InitForOpenGL)
+import FRP.Dunai.DearImGui.Backend
 import Graphics.GL qualified as GL
+import Internal.Prelude
 import SDL qualified
-import Prelude
-import Data.MonadicStreamFunction.Extra (constMLiftIO)
 
 data SDL2OpenGL3
 

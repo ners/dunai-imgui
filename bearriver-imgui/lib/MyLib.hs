@@ -1,22 +1,15 @@
 module MyLib where
 
-import Backend (runAppIO)
-import Backend.SDL2OpenGL3
 import Control.Monad.IO.Class (MonadIO (liftIO))
 import Control.Monad.Trans.MSF (runReaderS_)
-import Data.Text (Text)
 import DearImGui qualified
 import FRP.BearRiver
+import FRP.Dunai.DearImGui.Backend (runAppIO)
+import FRP.Dunai.DearImGui.Backend.SDL2OpenGL3
+import FRP.Dunai.DearImGui.Types (ID)
+import FRP.Dunai.DearImGui.Widgets (button)
 import SDL qualified
 import Prelude
-
--- | A widget ID by name
-type ID = Text
-
-button :: (MonadIO m) => SF m Bool b -> SF m ID b
-button sf = proc name -> do
-    btnOut <- arrM DearImGui.button -< name
-    sf -< btnOut
 
 someFunc :: IO ()
 someFunc = do
