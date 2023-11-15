@@ -23,6 +23,8 @@ common common
         -Wno-missing-import-lists
         -Wno-missing-kind-signatures
         -Wno-all-missed-specialisations
+        -Werror=missing-fields
+        -Werror=incomplete-patterns
     default-extensions:
         ApplicativeDo
         Arrows

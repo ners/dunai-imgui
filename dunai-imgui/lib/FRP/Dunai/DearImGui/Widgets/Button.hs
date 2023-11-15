@@ -7,7 +7,7 @@ data Button = Button
     { label :: Text
     , clicked :: Bool
     }
-    deriving stock (Generic)
+    deriving stock (Generic, Eq, Show)
 
 type IsButton b =
     ( HasLabel b

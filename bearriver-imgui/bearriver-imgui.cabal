@@ -23,6 +23,8 @@ common common
         -Wno-missing-import-lists
         -Wno-missing-kind-signatures
         -Wno-all-missed-specialisations
+        -Werror=missing-fields
+        -Werror=incomplete-patterns
     default-extensions:
         ApplicativeDo
         Arrows
@@ -47,12 +49,16 @@ common common
 library
     import:           common
     exposed-modules:  MyLib
+    other-modules:
+        Internal.Prelude,
     build-depends:
         base <5,
         bearriver,
         dear-imgui,
         dunai,
         dunai-imgui,
+        generic-lens,
+        lens,
         sdl2,
         text,
     hs-source-dirs:   lib

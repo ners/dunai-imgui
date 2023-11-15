@@ -1,15 +1,12 @@
 module MyLib where
 
-import Control.Monad.IO.Class (MonadIO (liftIO))
 import Control.Monad.Trans.MSF (runReaderS_)
-import DearImGui qualified
 import FRP.BearRiver
 import FRP.Dunai.DearImGui.Backend (runAppIO)
 import FRP.Dunai.DearImGui.Backend.SDL2OpenGL3
-import FRP.Dunai.DearImGui.Types (ID)
 import FRP.Dunai.DearImGui.Widgets
 import SDL qualified
-import Prelude
+import Internal.Prelude
 
 someFunc :: IO ()
 someFunc = do
@@ -18,10 +15,11 @@ someFunc = do
 
 frame :: forall m. (MonadIO m) => SF m () ()
 frame = proc _ -> do
+    --t' <- (traceMSF "inputText before: " >>> inputText >>> traceMSF "inputText after: ") -< t
     t' <- inputText -< t
     if t'.changed
-      then arrM (liftIO . print) -< t'.value
-      else returnA -< ()
+        then arrM (liftIO . print) -< t'.value
+        else returnA -< ()
     button1' <- button -< button1
     button2' <- button -< button2
     button1Clicked -< button1'.clicked
@@ -48,7 +46,9 @@ frame = proc _ -> do
             then arrM (liftIO . putStrLn) -< "derg"
             else returnA -< ()
     t :: InputText
-    t = InputText
-        { label = "Text por favor"
-        , value = ""
-        }
+    t =
+        InputText
+            { label = "Text por favor"
+            , value = ""
+            , changed = False
+            }
