@@ -23,3 +23,8 @@ type HasValue a v =
     ( HasField "value" a v
     , Lens.HasField "value" a a v v
     )
+
+type HasChanged a =
+  ( HasField "changed" a Bool
+  , Lens.HasField "changed" a a Bool Bool
+  )

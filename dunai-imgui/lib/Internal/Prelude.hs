@@ -18,7 +18,7 @@ import Control.Lens.Operators
 import Control.Monad.IO.Class (MonadIO (liftIO))
 import Control.Monad.Managed (managed, managed_, runManaged)
 import Control.Monad.Trans.MSF (reactimateB)
-import Data.MonadicStreamFunction (MSF, arrM, constM, returnA, morphS)
+import Data.MonadicStreamFunction (MSF, arrM, constM, morphS, returnA)
 import Data.MonadicStreamFunction.Extra
 import Data.Text (Text)
 import FRP.Dunai.DearImGui.Types

@@ -56,7 +56,6 @@
               hp = haskellPackages.override {
                 overrides = self: super:
                   with pkgs.haskell.lib.compose;
-                  builtins.trace "GHC ${super.ghc.version}"
                   {
                     dunai = self.callCabal2nix "dunai" "${inputs.dunai}/dunai" { };
                     bearriver = self.callCabal2nix "bearriver" "${inputs.dunai}/dunai-frp-bearriver" { };

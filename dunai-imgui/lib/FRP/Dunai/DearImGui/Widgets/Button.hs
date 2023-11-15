@@ -1,7 +1,7 @@
 module FRP.Dunai.DearImGui.Widgets.Button where
 
-import Internal.Prelude
 import DearImGui qualified
+import Internal.Prelude
 
 data Button = Button
     { label :: Text

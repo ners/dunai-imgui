@@ -53,7 +53,7 @@ library
         FRP.Dunai.DearImGui.Types,
         FRP.Dunai.DearImGui.Widgets,
         FRP.Dunai.DearImGui.Widgets.Button,
-        FRP.Dunai.DearImGui.Widgets.TextInput,
+        FRP.Dunai.DearImGui.Widgets.InputText,
     other-modules:
         Data.MonadicStreamFunction.Extra,
         Internal.Prelude,
@@ -61,6 +61,7 @@ library
         base <5,
         dear-imgui,
         dunai,
+        extra,
         generic-lens,
         gl,
         lens,
