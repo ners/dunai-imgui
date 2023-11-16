@@ -1,29 +1,32 @@
 module MyLib where
 
 import Control.Monad.Trans.MSF (runReaderS_)
+import Data.Text qualified as Text
+import Data.Text.IO qualified as Text
 import FRP.BearRiver
 import FRP.Dunai.DearImGui.Backend (runAppIO)
 import FRP.Dunai.DearImGui.Backend.SDL2OpenGL3
 import FRP.Dunai.DearImGui.Widgets
-import SDL qualified
 import Internal.Prelude
+import SDL qualified
+import DearImGui qualified
 
 someFunc :: IO ()
 someFunc = do
     let config = SDL.defaultWindow{SDL.windowGraphicsContext = SDL.OpenGLContext SDL.defaultOpenGL}
     runAppIO @SDL2OpenGL3 "Hello, Dear ImGui!" config (runReaderS_ frame 0.1)
 
-frame :: forall m. (MonadIO m) => SF m () ()
+frame :: forall m. (MonadGUI m) => SF m () ()
 frame = proc _ -> do
-    --t' <- (traceMSF "inputText before: " >>> inputText >>> traceMSF "inputText after: ") -< t
-    t' <- inputText -< t
+    --constM DearImGui.showDemoWindow -< ()
+    t' <- inputTextCustom noCovfefe t -< ()
     if t'.changed
         then arrM (liftIO . print) -< t'.value
         else returnA -< ()
     button1' <- button -< button1
     button2' <- button -< button2
-    button1Clicked -< button1'.clicked
-    button2Clicked -< button2'.clicked
+    buttonClicked -< button1'
+    buttonClicked -< button2'
   where
     button1 =
         Button
@@ -35,15 +38,10 @@ frame = proc _ -> do
             { label = "derg"
             , clicked = False
             }
-    button1Clicked :: SF m Bool ()
-    button1Clicked = proc p -> do
-        if p
-            then arrM (liftIO . putStrLn) -< "fox"
-            else returnA -< ()
-    button2Clicked :: SF m Bool ()
-    button2Clicked = proc p -> do
-        if p
-            then arrM (liftIO . putStrLn) -< "derg"
+    buttonClicked :: SF m Button ()
+    buttonClicked = proc p -> do
+        if p.clicked
+            then arrM (liftIO . Text.putStrLn) -< p.label <> " clicked"
             else returnA -< ()
     t :: InputText
     t =
@@ -52,3 +50,5 @@ frame = proc _ -> do
             , value = ""
             , changed = False
             }
+    noCovfefe :: SF m InputText InputText
+    noCovfefe = arr $ #value %~ Text.replace "covfefe" "coverage"

@@ -14,7 +14,7 @@ type IsButton b =
     , HasClicked b
     )
 
-button :: (MonadIO m, IsButton b) => MSF m b b
+button :: (MonadGUI m, IsButton b) => MSF m b b
 button = proc b -> do
     clicked <- arrM DearImGui.button -< b.label
     returnA -< b & #clicked .~ clicked

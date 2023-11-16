@@ -71,6 +71,7 @@ library
         sdl2,
         text,
         transformers-base,
+        unliftio,
     hs-source-dirs:   lib
     default-language: GHC2021
 

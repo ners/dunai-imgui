@@ -61,6 +61,7 @@ library
         lens,
         sdl2,
         text,
+        unliftio,
     hs-source-dirs:   lib
     default-language: GHC2021
 

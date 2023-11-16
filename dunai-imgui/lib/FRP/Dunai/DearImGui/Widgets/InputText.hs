@@ -1,15 +1,16 @@
+{-# OPTIONS_GHC -Wno-monomorphism-restriction #-}
 {-# OPTIONS_GHC -Wno-name-shadowing #-}
 
 module FRP.Dunai.DearImGui.Widgets.InputText where
 
-import Data.IORef (newIORef, readIORef)
+import Data.MonadicStreamFunction (iPre)
 import Data.Tuple.Extra (uncurry3)
-import DearImGui (ImVec2 (ImVec2))
+import Data.Unique (hashUnique)
+import Data.Unique qualified as Data
 import DearImGui qualified
+import DearImGui qualified as DearImgui
+import DearImGui.Raw qualified as DearImGui
 import Internal.Prelude
-
-uncurry4 :: (a -> b -> c -> d -> e) -> (a, b, c, d) -> e
-uncurry4 f (a, b, c, d) = f a b c d
 
 data InputText = InputText
     { label :: Text
@@ -24,14 +25,29 @@ type IsInputText b =
     , HasChanged b
     )
 
-inputText :: (MonadIO m, IsInputText t) => MSF m t t
-inputText = proc t -> do
-    ref <- arrM (liftIO . newIORef) -< t.value
-    -- changed <- arrM (uncurry4 DearImGui.inputTextMultiline) -< (t.label, ref, 99999, vec)
-    changed <- arrM (uncurry3 DearImGui.inputText) -< (t.label, ref, 99999)
-    value <- arrM (liftIO . readIORef) -< ref
+-- | TODO Cajun will write nice docs here :-)
+inputText' :: forall m t. (MonadGUI m, IsInputText t) => MSF m t t
+inputText' = proc t -> do
+    ref <- arrM newIORef -< t.value
+    changed <- arrM mkInputText -< (t.label, ref, 99999)
+    value <- arrM readIORef -< ref
     let modify = #changed .~ changed >>> #value .~ value
     returnA -< modify t
+  where
+    mkInputText :: (Text, IORef Text, Int) -> m Bool
+    mkInputText args = do
+        id <- fromIntegral . hashUnique <$> liftIO Data.newUnique
+        DearImGui.pushIDInt id
+        res <- DearImGui.withID id $ uncurry3 DearImgui.inputText args
+        liftIO DearImGui.popID
+        pure res
 
--- where
---  vec = ImVec2 0 0
+-- | TODO Cajun will write nice docs here :-)
+inputTextCustom :: forall m t. (MonadGUI m, IsInputText t) => MSF m t t -> t -> MSF m () t
+inputTextCustom sf initialT = proc () -> do
+    rec outputT <- sf <<< inputText' <<< iPre initialT -< outputT
+    returnA -< outputT
+
+-- | TODO Cajun will write nice docs here :-)
+inputText :: forall m t. (MonadGUI m, IsInputText t) => t -> MSF m () t
+inputText = inputTextCustom (arr id)

@@ -1,9 +1,11 @@
 module FRP.Dunai.DearImGui.Types where
 
+import Control.Monad.Fix (MonadFix)
 import Data.Generics.Labels ()
 import Data.Generics.Product qualified as Lens
 import Data.Text (Text)
 import GHC.Records (HasField)
+import UnliftIO (MonadUnliftIO)
 import Prelude
 
 -- | A widget ID by name
@@ -25,6 +27,11 @@ type HasValue a v =
     )
 
 type HasChanged a =
-  ( HasField "changed" a Bool
-  , Lens.HasField "changed" a a Bool Bool
-  )
+    ( HasField "changed" a Bool
+    , Lens.HasField "changed" a a Bool Bool
+    )
+
+type MonadGUI m =
+    ( MonadUnliftIO m
+    , MonadFix m
+    )
