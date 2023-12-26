@@ -56,6 +56,7 @@ library
         FRP.Dunai.DearImGui.Widgets,
         FRP.Dunai.DearImGui.Widgets.Button,
         FRP.Dunai.DearImGui.Widgets.InputText,
+        FRP.Dunai.DearImGui.Widgets.Plotting,
     other-modules:
         Data.MonadicStreamFunction.Extra,
         Internal.Prelude,
