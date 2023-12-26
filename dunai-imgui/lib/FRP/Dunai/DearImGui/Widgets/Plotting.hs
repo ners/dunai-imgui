@@ -20,10 +20,10 @@ data PlotLineData f = PlotLineData
     }
     deriving stock (Generic)
 
--- | Make a plot over time holding @n@ maximum datapoints. When a new datapoint is
--- When a datapoint is received, it is put into the FILO queue. Effectively,
--- the leftmost datapoint is removed in favor of the new rightmost datapoint.
--- This plot cannot "halt," since it always requires input.
+-- | Make a plot over time holding @n@ maximum datapoints. When a datapoint is
+-- received, it is put into the FILO queue. Effectively, the leftmost datapoint
+-- is removed in favor of the new rightmost datapoint. This plot cannot "halt,"
+-- since it always requires input.
 plotLines :: (MonadIO m, IsPlotLine t) => Int -> MSF m t ()
 plotLines len = proc t -> do
     list <- holdList len -< Just . CFloat $ runIdentity t.value
