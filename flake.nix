@@ -1,4 +1,10 @@
 {
+  nixConfig = {
+    extra-experimental-features = "nix-command flakes";
+    extra-substituters = "https://cache.ners.ch/haskell";
+    extra-trusted-public-keys = "haskell:WskuxROW5pPy83rt3ZXnff09gvnu80yovdeKDw5Gi3o=";
+  };
+
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nix-filter.url = "github:numtide/nix-filter";
@@ -7,7 +13,7 @@
       flake = false;
     };
     rhine = {
-      url = "github:turion/rhine";
+      url = "github:ners/rhine/dunai-0.12";
       flake = false;
     };
     imgui = {
@@ -34,68 +40,65 @@
           "lib"
           "src"
           "test"
-          "${pname}.cabal"
+          (inputs.nix-filter.lib.matchExt "cabal")
+          (inputs.nix-filter.lib.matchExt "md")
         ];
       };
-      mkLib = hp: pname: { "${pname}" = hp.callCabal2nix pname (hsSrc pname) { }; };
       pnames = [ "dunai-imgui" "bearriver-imgui" "rhine-imgui" ];
-    in
-    foreach inputs.nixpkgs.legacyPackages (system: pkgs:
-      let
-        defaultGhc = builtins.replaceStrings ["-" "."] ["" ""] pkgs.haskellPackages.ghc.name;
-      in
-      lib.recursiveUpdate
-        {
-          formatter.${system} = pkgs.nixpkgs-fmt;
-          packages.${system}.default = inputs.self.packages.${system}.${defaultGhc}.dunai-imgui;
-          devShells.${system}.default = inputs.self.devShells.${system}.${defaultGhc};
-        }
-        (foreach (lib.filterAttrs (name: _: builtins.match "ghc[0-9]+" name != null) pkgs.haskell.packages)
-          (ghcName: haskellPackages:
-            let
-              hp = haskellPackages.override {
-                overrides = self: super:
-                  with pkgs.haskell.lib.compose;
-                  {
-                    dunai = self.callCabal2nix "dunai" "${inputs.dunai}/dunai" { };
-                    bearriver = self.callCabal2nix "bearriver" "${inputs.dunai}/dunai-frp-bearriver" { };
-                    rhine = doJailbreak (self.callCabal2nix "rhine" "${inputs.rhine}/rhine" { });
-                    dear-imgui = lib.pipe inputs.imgui-hs [
-                      (src: self.callCabal2nix "dear-imgui" src {})
-                      (drv: drv.overrideAttrs (attrs: {
-                        postPatch = ''
-                          ${attrs.postPatch or ""}
-                          rmdir ./imgui
-                          ln -s ${inputs.imgui} ./imgui
-                        '';
-                        buildInputs = with pkgs; [
-                          gcc
-                          glew
-                          SDL2
-                        ]
-                        ++ attrs.nativeBuildInputs or [];
-                      }))
-                    ];
-                  }
-                // foreach pnames (mkLib self)
-                // lib.optionalAttrs (lib.versionAtLeast super.ghc.version "9.6") {
-                  fourmolu = super.fourmolu_0_14_0_0;
-                };
-              };
-            in
+      overlay = final: prev: {
+        haskell = prev.haskell // {
+          packageOverrides = lib.composeExtensions prev.haskell.packageOverrides (hfinal: hprev:
+            with prev.haskell.lib.compose;
             {
-              packages.${system}.${ghcName} = foreach pnames (pname: {
-                "${pname}" = hp.${pname};
+              dunai = hfinal.callCabal2nix "dunai" "${inputs.dunai}/dunai" { };
+              bearriver = hfinal.callCabal2nix "bearriver" "${inputs.dunai}/dunai-frp-bearriver" { };
+              rhine = doJailbreak (hfinal.callCabal2nix "rhine" "${inputs.rhine}/rhine" { });
+              dear-imgui = (hfinal.callCabal2nix "dear-imgui" inputs.imgui-hs { }).overrideAttrs (attrs: {
+                postPatch = ''
+                  ${attrs.postPatch or ""}
+                  rmdir ./imgui
+                  ln -s ${inputs.imgui} ./imgui
+                '';
+                buildInputs = with prev; [
+                  gcc
+                  glew
+                  SDL2
+                ]
+                ++ attrs.nativeBuildInputs or [ ];
               });
-              devShells.${system}.${ghcName} = hp.shellFor {
-                packages = ps: builtins.map (pname: ps.${pname}) pnames;
-                nativeBuildInputs = with hp; [
-                  cabal-install
-                  fourmolu
-                  haskell-language-server
-                ];
-              };
             }
-          )
-        ));
+            // foreach pnames (pname: {
+              "${pname}" = lib.pipe pname [
+                (pname: hfinal.callCabal2nix pname (hsSrc pname) { })
+                dontCheck
+                dontCoverage
+                dontHaddock
+              ];
+            })
+          );
+        };
+      };
+    in
+    foreach inputs.nixpkgs.legacyPackages (system: pkgs':
+      let pkgs = pkgs'.extend overlay; in
+      {
+        formatter.${system} = pkgs.nixpkgs-fmt;
+        legacyPackages.${system} = pkgs;
+        packages.${system}.default = pkgs.buildEnv {
+          name = "dunai-imgui";
+          paths = builtins.map (pname: pkgs.haskellPackages.${pname}) pnames;
+        };
+        devShells.${system} =
+          foreach (pkgs.haskell.packages // { default = pkgs.haskellPackages; }) (ghcName: hp: {
+            ${ghcName} = hp.shellFor {
+              packages = ps: builtins.map (pname: ps.${pname}) pnames;
+              nativeBuildInputs = with hp; [
+                cabal-install
+                fourmolu
+                haskell-language-server
+              ];
+            };
+          });
+      }
+    );
 }
