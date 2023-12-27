@@ -16,6 +16,11 @@ type HasLabel a =
     , Lens.HasField "label" a a Text Text
     )
 
+type HasChecked a =
+    ( HasField "checked" a Bool
+    , Lens.HasField "checked" a a Bool Bool
+    )
+
 type HasClicked a =
     ( HasField "clicked" a Bool
     , Lens.HasField "clicked" a a Bool Bool
@@ -30,6 +35,14 @@ type HasChanged a =
     ( HasField "changed" a Bool
     , Lens.HasField "changed" a a Bool Bool
     )
+
+-- | TODO: figure out how to implement this
+type HasDisabled a =
+    ( HasField "disabled" a Bool
+    , Lens.HasField "disabled" a a Bool Bool
+    )
+
+type IsWidget s = (HasDisabled s)
 
 type MonadGUI m =
     ( MonadUnliftIO m

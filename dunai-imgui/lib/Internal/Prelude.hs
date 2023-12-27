@@ -31,10 +31,10 @@ import Data.Text (Text)
 import Debug.Trace
 import FRP.Dunai.DearImGui.Types
 import GHC.Generics (Generic)
-import Prelude
 import UnliftIO
 import UnliftIO.IO
 import UnliftIO.IORef
+import Prelude
 
 traceMSF :: forall a m. (Show a, Monad m) => String -> MSF m a a
 traceMSF prefix = proc a -> do

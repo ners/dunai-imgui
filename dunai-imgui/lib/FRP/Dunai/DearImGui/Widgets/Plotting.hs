@@ -5,6 +5,7 @@ import DearImGui qualified as ImGui (plotLines)
 import Foreign.C.Types (CFloat (..))
 import Internal.Prelude
 
+-- | TODO: Cajun: write docs
 type IsPlotLineBarbie b f =
     ( HasLabel b
     , HasValue b (f Float)

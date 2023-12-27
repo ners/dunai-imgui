@@ -55,6 +55,7 @@ library
         FRP.Dunai.DearImGui.Types,
         FRP.Dunai.DearImGui.Widgets,
         FRP.Dunai.DearImGui.Widgets.Button,
+        FRP.Dunai.DearImGui.Widgets.Checkbox,
         FRP.Dunai.DearImGui.Widgets.InputText,
         FRP.Dunai.DearImGui.Widgets.Plotting,
     other-modules:

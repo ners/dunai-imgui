@@ -4,13 +4,15 @@ import DearImGui qualified
 import Internal.Prelude
 
 data Button = Button
-    { label :: Text
+    { disabled :: Bool
+    , label :: Text
     , clicked :: Bool
     }
     deriving stock (Generic, Eq, Show)
 
 type IsButton b =
-    ( HasLabel b
+    ( IsWidget b
+    , HasLabel b
     , HasClicked b
     )
 

@@ -8,6 +8,7 @@ import FRP.BearRiver
 import FRP.Dunai.DearImGui.Backend (runAppIO)
 import FRP.Dunai.DearImGui.Backend.SDL2OpenGL3
 import FRP.Dunai.DearImGui.Widgets
+import FRP.Dunai.DearImGui.Widgets.Checkbox
 import FRP.Dunai.DearImGui.Widgets.Plotting
 import GHC.Float (double2Float)
 import Internal.Prelude
@@ -20,13 +21,14 @@ someFunc = do
 
 frame :: forall m. (MonadGUI m) => SF m () ()
 frame = proc _ -> do
-    -- constM DearImGui.showDemoWindow -< ()
+    constM DearImGui.showDemoWindow -< ()
     t' <- inputTextCustom noCovfefe t -< ()
     if t'.changed
         then arrM (liftIO . print) -< t'.value
         else returnA -< ()
     button1' <- button -< button1
     button2' <- button -< button2
+    rec check1' <- checkbox <<< iPre check1 -< check1'
     buttonClicked -< button1'
     buttonClicked -< button2'
     sinWave <- arr (double2Float . sin) <<< FRP.BearRiver.time -< ()
@@ -37,13 +39,21 @@ frame = proc _ -> do
   where
     button1 =
         Button
-            { label = "fox"
+            { disabled = False
+            , label = "fox"
             , clicked = False
             }
     button2 =
         Button
-            { label = "derg"
+            { disabled = False
+            , label = "derg"
             , clicked = False
+            }
+    check1 =
+        Checkbox
+            { disabled = False
+            , label = "foo"
+            , checked = False
             }
     buttonClicked :: SF m Button ()
     buttonClicked = proc p -> do
@@ -53,7 +63,8 @@ frame = proc _ -> do
     t :: InputText
     t =
         InputText
-            { label = "Text por favor"
+            { disabled = False
+            , label = "Text por favor"
             , value = ""
             , changed = False
             }
