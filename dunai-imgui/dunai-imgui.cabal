@@ -58,6 +58,8 @@ library
         FRP.Dunai.DearImGui.Widgets.Checkbox,
         FRP.Dunai.DearImGui.Widgets.InputText,
         FRP.Dunai.DearImGui.Widgets.Plotting,
+        FRP.Dunai.DearImGui.Widgets.Radio,
+        FRP.Dunai.DearImGui.Widgets.Slider,
     other-modules:
         Data.MonadicStreamFunction.Extra,
         Internal.Prelude,

@@ -10,6 +10,7 @@ import FRP.Dunai.DearImGui.Backend.SDL2OpenGL3
 import FRP.Dunai.DearImGui.Widgets
 import FRP.Dunai.DearImGui.Widgets.Checkbox
 import FRP.Dunai.DearImGui.Widgets.Plotting
+import FRP.Dunai.DearImGui.Widgets.Slider
 import GHC.Float (double2Float)
 import Internal.Prelude
 import SDL qualified
@@ -28,9 +29,10 @@ frame = proc _ -> do
         else returnA -< ()
     button1' <- button -< button1
     button2' <- button -< button2
-    rec check1' <- checkbox <<< iPre check1 -< check1'
     buttonClicked -< button1'
     buttonClicked -< button2'
+    rec check1' <- checkbox <<< iPre check1 -< check1'
+    rec float1' <- sliderFloat <<< iPre float1 -< float1'
     sinWave <- arr (double2Float . sin) <<< FRP.BearRiver.time -< ()
     let sinVal = if sinWave > 0 then Just sinWave else Nothing
         opposite = if sinWave < 0 then Just sinWave else Nothing
@@ -54,6 +56,14 @@ frame = proc _ -> do
             { disabled = False
             , label = "foo"
             , checked = False
+            }
+    float1 :: Slider Float
+    float1 =
+        Slider
+            { disabled = False
+            , label = "Choose a float"
+            , range = (0, 100)
+            , value = 0
             }
     buttonClicked :: SF m Button ()
     buttonClicked = proc p -> do

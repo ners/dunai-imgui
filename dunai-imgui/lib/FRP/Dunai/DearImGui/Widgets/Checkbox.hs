@@ -10,13 +10,13 @@ data Checkbox = Checkbox
     }
     deriving stock (Generic, Eq, Show)
 
-type IsCheckbox b =
-    ( IsWidget b
-    , HasLabel b
-    , HasChecked b
+type IsCheckbox c =
+    ( IsWidget c
+    , HasLabel c
+    , HasChecked c
     )
 
-checkbox :: (MonadGUI m, IsCheckbox b) => MSF m b b
+checkbox :: (MonadGUI m, IsCheckbox c) => MSF m c c
 checkbox = proc b -> do
     ref <- arrM newIORef -< b.checked
     void $ arrM (uncurry DearImGui.checkbox) -< (b.label, ref)
